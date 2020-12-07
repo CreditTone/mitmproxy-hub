@@ -21,3 +21,8 @@ pip3 install mitmproxy
 ```
 python3 server.py
 ```
+
+### mitmproxy-java
+```
+https://github.com/CreditTone/mitmproxy-java
+```
