@@ -17,11 +17,6 @@ Platform:  Darwin-20.1.0-x86_64-i386-64bit
 pip3 install mitmproxy
 ```
 
-### 下载项目
-```
-git clone http://git.guazi-corp.com/newcrawler/mitmproxy-hub.git
-```
-
 ### 启动mitmproxy-hub
 ```
 python3 server.py
