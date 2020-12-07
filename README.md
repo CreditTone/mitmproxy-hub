@@ -19,7 +19,7 @@ pip3 install mitmproxy
 
 ### 下载项目
 ```
-git clone xxx
+git clone http://git.guazi-corp.com/newcrawler/mitmproxy-hub.git
 ```
 
 ### 启动mitmproxy-hub
