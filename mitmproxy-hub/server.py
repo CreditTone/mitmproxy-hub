@@ -34,8 +34,8 @@ class BothwayMitmServer(mitm_hub_pb2_grpc.MitmProxyHubServerServicer):
         loop =  asyncio.new_event_loop()
         asyncio.set_event_loop(loop)
         opts = options.Options(listen_host=bind, listen_port=port)
-        #opts.add_option("mode", str, "upstream:http://127.0.0.1:8118", "")  
-        #opts.add_option("ssl_insecure", bool, True, "")
+        #opts.add_option("mode", str, "upstream:http://10.115.36.172:9999", "")#设置上游代理
+        opts.add_option("ssl_insecure", bool, True, "")#不验证上游代理证书
         pconf = proxy.config.ProxyConfig(opts)
         mDumpMaster = DumpMaster(opts)
         mDumpMaster.server = proxy.server.ProxyServer(pconf)

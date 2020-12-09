@@ -40,8 +40,19 @@ class MitmproxyFlower:
         fixedMitmRequest = self.grpcClient.onMitmRequest(mitmRequest)
         req.url = fixedMitmRequest.url
         req.method = fixedMitmRequest.method
+        
+        fixedHeadersKeys = set()
         for fixedHeader in fixedMitmRequest.headers:
+            fixedHeadersKeys.add(fixedHeader.name)
             req.headers[fixedHeader.name] = fixedHeader.value
+        
+        #get removedHeadersKeys
+        originalHeadersKeys = set(req.headers.keys())
+        removedHeadersKeys = originalHeadersKeys - fixedHeadersKeys
+        #delete request header key
+        for removedHeadersKey in removedHeadersKeys:
+            del req.headers[removedHeadersKey]
+        
         req.content = mitmRequest.content
     
     def response(self, flow: http.HTTPFlow) -> None:
@@ -56,9 +67,21 @@ class MitmproxyFlower:
             mitmHeader = mitm_hub_pb2.MitmHeader(name=k, value=v)
             mitmHeaders.append(mitmHeader)
             mitmResponse = mitm_hub_pb2.MitmResponse(request=mitmRequest, headers=mitmHeaders, content=res.content, statusCode=res.status_code, mitmproxyId=self.mitmproxyId)
+        
         fixedMitmResponse = self.grpcClient.onMitmResponse(mitmResponse)
+        
+        fixedResponseHeadersKeys = set()
         for fixedHeader in fixedMitmResponse.headers:
             res.headers[fixedHeader.name] = fixedHeader.value
+            fixedResponseHeadersKeys.add(fixedHeader.name)
+        
+            
+        originalResponseHeadersKeys = set(res.headers.keys())
+        removedResponseHeadersKeys = originalResponseHeadersKeys - fixedResponseHeadersKeys
+        #delete response header key
+        for removedHeadersKey in removedResponseHeadersKeys:
+            del res.headers[removedHeadersKey]
+        
         res.content = fixedMitmResponse.content
         res.status_code = fixedMitmResponse.statusCode
     
