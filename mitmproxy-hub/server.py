@@ -5,6 +5,7 @@ Created on 2020年12月6日
 '''
 from concurrent import futures
 import uuid
+import base64
 import time
 import grpc
 import threading
@@ -19,6 +20,8 @@ from mitmproxy.script import concurrent
 from mitmproxy import flowfilter
 from mitmproxy import ctx, http
 
+from mitmproxy.addons import upstream_auth
+
 from mitm_flow_callback import MitmproxyFlower
 
 # 实现 proto 文件中定义的 MitmProxyHubServerServicer
@@ -29,14 +32,16 @@ class BothwayMitmServer(mitm_hub_pb2_grpc.MitmProxyHubServerServicer):
         self.locker = threading.Lock()
         
         
-    def startDumpMaster(self, bind="0.0.0.0", port=8866, mitmproxyId = str(uuid.uuid4()), callbackServerAddr = None, callbackServerPort = None, upstream = None):
+    def startDumpMaster(self, bind="0.0.0.0", port=8866, mitmproxyId = str(uuid.uuid4()), callbackServerAddr = None, callbackServerPort = None, upstream = None, upstreamAuth = None):
         print("start........", bind, port)
         loop =  asyncio.new_event_loop()
         asyncio.set_event_loop(loop)
         opts = options.Options(listen_host=bind, listen_port=port)
+        #upstream = "http://http-dyn.abuyun.com:9020"
+        #upstreamAuth = "H88QO221HIVO10MD:62769571795BDB48"
         if upstream:
             opts.add_option("mode", str, "upstream:" + upstream, "")#设置上游代理
-            print("upstream", upstream)
+            print("set upstream", upstream)
         opts.add_option("ssl_insecure", bool, True, "")#不验证上游代理证书
         pconf = proxy.config.ProxyConfig(opts)
         mDumpMaster = DumpMaster(opts)
@@ -47,6 +52,10 @@ class BothwayMitmServer(mitm_hub_pb2_grpc.MitmProxyHubServerServicer):
             print("save mitmproxies", mitmproxyId)
         finally:
             self.locker.release()
+        if upstream and upstreamAuth: #坑啊
+            upstreamAuthAddon:upstream_auth.UpstreamAuth = mDumpMaster.addons.get("upstreamauth")
+            upstreamAuthAddon.auth = upstream_auth.parse_upstream_auth(upstreamAuth)
+            print("set upstreamAuth", upstreamAuthAddon.auth)
         mDumpMaster.addons.add(MitmproxyFlower(callbackServerAddr, callbackServerPort, mitmproxyId))
         mDumpMaster.run() #is blocking
         print("finished mitmproxy", mitmproxyId)
@@ -59,7 +68,8 @@ class BothwayMitmServer(mitm_hub_pb2_grpc.MitmProxyHubServerServicer):
         callbackServerAddr = request.callbackServerAddr
         callbackServerPort = request.callbackServerPort
         upstream = request.upstream
-        thead_one = threading.Thread(target=self.startDumpMaster, args=(bind, port, mitmproxyId, callbackServerAddr, callbackServerPort, upstream))
+        upstreamAuth = request.upstreamAuth
+        thead_one = threading.Thread(target=self.startDumpMaster, args=(bind, port, mitmproxyId, callbackServerAddr, callbackServerPort, upstream, upstreamAuth))
         thead_one.start()
         return mitm_hub_pb2.MitmproxyStartResponse(mitmproxyId=mitmproxyId)
     

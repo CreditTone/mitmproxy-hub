@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x0emitm_hub.proto\x12\x04mitm\"\x0e\n\x0cVoidResponse\"}\n\x15MitmproxyStartRequest\x12\x0c\n\x04\x62ind\x18\x01 \x01(\t\x12\x0c\n\x04port\x18\x02 \x01(\x05\x12\x1a\n\x12\x63\x61llbackServerAddr\x18\x03 \x01(\t\x12\x1a\n\x12\x63\x61llbackServerPort\x18\x04 \x01(\x05\x12\x10\n\x08upstream\x18\x05 \x01(\t\"-\n\x16MitmproxyStartResponse\x12\x13\n\x0bmitmproxyId\x18\x01 \x01(\t\"+\n\x14MitmproxyStopRequest\x12\x13\n\x0bmitmproxyId\x18\x01 \x01(\t\")\n\nMitmHeader\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t\"s\n\x0bMitmRequest\x12\x0b\n\x03url\x18\x01 \x01(\t\x12\x0e\n\x06method\x18\x02 \x01(\t\x12!\n\x07headers\x18\x03 \x03(\x0b\x32\x10.mitm.MitmHeader\x12\x0f\n\x07\x63ontent\x18\x04 \x01(\x0c\x12\x13\n\x0bmitmproxyId\x18\x05 \x01(\t\"\x8f\x01\n\x0cMitmResponse\x12\"\n\x07request\x18\x01 \x01(\x0b\x32\x11.mitm.MitmRequest\x12!\n\x07headers\x18\x02 \x03(\x0b\x32\x10.mitm.MitmHeader\x12\x0f\n\x07\x63ontent\x18\x03 \x01(\x0c\x12\x12\n\nstatusCode\x18\x04 \x01(\x05\x12\x13\n\x0bmitmproxyId\x18\x05 \x01(\t2\x94\x01\n\x12MitmProxyHubServer\x12\x44\n\x05start\x12\x1b.mitm.MitmproxyStartRequest\x1a\x1c.mitm.MitmproxyStartResponse\"\x00\x12\x38\n\x04stop\x12\x1a.mitm.MitmproxyStopRequest\x1a\x12.mitm.VoidResponse\"\x00\x32\x8f\x01\n\x18MitmProxyHubClientServer\x12\x37\n\ronMitmRequest\x12\x11.mitm.MitmRequest\x1a\x11.mitm.MitmRequest\"\x00\x12:\n\x0eonMitmResponse\x12\x12.mitm.MitmResponse\x1a\x12.mitm.MitmResponse\"\x00\x62\x06proto3'
+  serialized_pb=b'\n\x0emitm_hub.proto\x12\x04mitm\"\x0e\n\x0cVoidResponse\"\x93\x01\n\x15MitmproxyStartRequest\x12\x0c\n\x04\x62ind\x18\x01 \x01(\t\x12\x0c\n\x04port\x18\x02 \x01(\x05\x12\x1a\n\x12\x63\x61llbackServerAddr\x18\x03 \x01(\t\x12\x1a\n\x12\x63\x61llbackServerPort\x18\x04 \x01(\x05\x12\x10\n\x08upstream\x18\x05 \x01(\t\x12\x14\n\x0cupstreamAuth\x18\x06 \x01(\t\"-\n\x16MitmproxyStartResponse\x12\x13\n\x0bmitmproxyId\x18\x01 \x01(\t\"+\n\x14MitmproxyStopRequest\x12\x13\n\x0bmitmproxyId\x18\x01 \x01(\t\")\n\nMitmHeader\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t\"s\n\x0bMitmRequest\x12\x0b\n\x03url\x18\x01 \x01(\t\x12\x0e\n\x06method\x18\x02 \x01(\t\x12!\n\x07headers\x18\x03 \x03(\x0b\x32\x10.mitm.MitmHeader\x12\x0f\n\x07\x63ontent\x18\x04 \x01(\x0c\x12\x13\n\x0bmitmproxyId\x18\x05 \x01(\t\"\x8f\x01\n\x0cMitmResponse\x12\"\n\x07request\x18\x01 \x01(\x0b\x32\x11.mitm.MitmRequest\x12!\n\x07headers\x18\x02 \x03(\x0b\x32\x10.mitm.MitmHeader\x12\x0f\n\x07\x63ontent\x18\x03 \x01(\x0c\x12\x12\n\nstatusCode\x18\x04 \x01(\x05\x12\x13\n\x0bmitmproxyId\x18\x05 \x01(\t2\x94\x01\n\x12MitmProxyHubServer\x12\x44\n\x05start\x12\x1b.mitm.MitmproxyStartRequest\x1a\x1c.mitm.MitmproxyStartResponse\"\x00\x12\x38\n\x04stop\x12\x1a.mitm.MitmproxyStopRequest\x1a\x12.mitm.VoidResponse\"\x00\x32\x8f\x01\n\x18MitmProxyHubClientServer\x12\x37\n\ronMitmRequest\x12\x11.mitm.MitmRequest\x1a\x11.mitm.MitmRequest\"\x00\x12:\n\x0eonMitmResponse\x12\x12.mitm.MitmResponse\x1a\x12.mitm.MitmResponse\"\x00\x62\x06proto3'
 )
 
 
@@ -93,6 +93,13 @@ _MITMPROXYSTARTREQUEST = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='upstreamAuth', full_name='mitm.MitmproxyStartRequest.upstreamAuth', index=5,
+      number=6, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
   ],
   extensions=[
   ],
@@ -105,8 +112,8 @@ _MITMPROXYSTARTREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=40,
-  serialized_end=165,
+  serialized_start=41,
+  serialized_end=188,
 )
 
 
@@ -137,8 +144,8 @@ _MITMPROXYSTARTRESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=167,
-  serialized_end=212,
+  serialized_start=190,
+  serialized_end=235,
 )
 
 
@@ -169,8 +176,8 @@ _MITMPROXYSTOPREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=214,
-  serialized_end=257,
+  serialized_start=237,
+  serialized_end=280,
 )
 
 
@@ -208,8 +215,8 @@ _MITMHEADER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=259,
-  serialized_end=300,
+  serialized_start=282,
+  serialized_end=323,
 )
 
 
@@ -268,8 +275,8 @@ _MITMREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=302,
-  serialized_end=417,
+  serialized_start=325,
+  serialized_end=440,
 )
 
 
@@ -328,8 +335,8 @@ _MITMRESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=420,
-  serialized_end=563,
+  serialized_start=443,
+  serialized_end=586,
 )
 
 _MITMREQUEST.fields_by_name['headers'].message_type = _MITMHEADER
@@ -402,8 +409,8 @@ _MITMPROXYHUBSERVER = _descriptor.ServiceDescriptor(
   index=0,
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_start=566,
-  serialized_end=714,
+  serialized_start=589,
+  serialized_end=737,
   methods=[
   _descriptor.MethodDescriptor(
     name='start',
@@ -438,8 +445,8 @@ _MITMPROXYHUBCLIENTSERVER = _descriptor.ServiceDescriptor(
   index=1,
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_start=717,
-  serialized_end=860,
+  serialized_start=740,
+  serialized_end=883,
   methods=[
   _descriptor.MethodDescriptor(
     name='onMitmRequest',

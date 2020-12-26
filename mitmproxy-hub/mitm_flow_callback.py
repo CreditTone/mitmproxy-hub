@@ -1,6 +1,7 @@
 import re
 import sys
 import grpc
+import base64
 import mitm_hub_pb2
 import mitm_hub_pb2_grpc
 import threading
