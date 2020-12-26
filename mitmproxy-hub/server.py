@@ -29,12 +29,14 @@ class BothwayMitmServer(mitm_hub_pb2_grpc.MitmProxyHubServerServicer):
         self.locker = threading.Lock()
         
         
-    def startDumpMaster(self, bind="0.0.0.0", port=8866, mitmproxyId = str(uuid.uuid4()), callbackServerAddr = None, callbackServerPort = None):
+    def startDumpMaster(self, bind="0.0.0.0", port=8866, mitmproxyId = str(uuid.uuid4()), callbackServerAddr = None, callbackServerPort = None, upstream = None):
         print("start........", bind, port)
         loop =  asyncio.new_event_loop()
         asyncio.set_event_loop(loop)
         opts = options.Options(listen_host=bind, listen_port=port)
-        #opts.add_option("mode", str, "upstream:http://10.115.36.172:9999", "")#设置上游代理
+        if upstream:
+            opts.add_option("mode", str, "upstream:" + upstream, "")#设置上游代理
+            print("upstream", upstream)
         opts.add_option("ssl_insecure", bool, True, "")#不验证上游代理证书
         pconf = proxy.config.ProxyConfig(opts)
         mDumpMaster = DumpMaster(opts)
@@ -56,7 +58,8 @@ class BothwayMitmServer(mitm_hub_pb2_grpc.MitmProxyHubServerServicer):
         mitmproxyId = str(uuid.uuid4())
         callbackServerAddr = request.callbackServerAddr
         callbackServerPort = request.callbackServerPort
-        thead_one = threading.Thread(target=self.startDumpMaster, args=(bind, port, mitmproxyId, callbackServerAddr, callbackServerPort))
+        upstream = request.upstream
+        thead_one = threading.Thread(target=self.startDumpMaster, args=(bind, port, mitmproxyId, callbackServerAddr, callbackServerPort, upstream))
         thead_one.start()
         return mitm_hub_pb2.MitmproxyStartResponse(mitmproxyId=mitmproxyId)
     
