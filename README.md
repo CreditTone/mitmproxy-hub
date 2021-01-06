@@ -19,7 +19,7 @@ Platform:  Darwin-20.1.0-x86_64-i386-64bit
 
 ### 安装mitmproxy
 ```
-pip3 install mitmproxy
+pip3 install mitmproxy==5.3.0
 ```
 
 ### 启动mitmproxy-hub
