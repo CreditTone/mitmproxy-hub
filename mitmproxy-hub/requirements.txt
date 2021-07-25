@@ -37,7 +37,6 @@ gevent==20.9.0
 greenlet==0.4.17
 grpcio==1.33.2
 grpcio-tools==1.33.2
-GZCL==1.5.5
 h11==0.11.0
 h2==4.0.0
 hiredis==2.0.0
@@ -103,13 +102,6 @@ rediscluster==0.2.1
 requests==2.25.0
 ruamel.yaml==0.16.12
 ruamel.yaml.clib==0.2.2
-Scrapy==2.4.0
-scrapy-redis==0.6.8
-scrapy-redis-cluster==0.4
-scrapy-splash==0.7.2
-scrapyd==1.2.1
-scrapyd-client==1.1.0
-scrapydweb==1.4.0
 service-identity==18.1.0
 six==1.15.0
 sortedcontainers==2.2.2
@@ -138,3 +130,4 @@ zconst==1.0.0
 zope.event==4.5.0
 zope.interface==5.2.0
 zstandard==0.14.0
+grpcio
