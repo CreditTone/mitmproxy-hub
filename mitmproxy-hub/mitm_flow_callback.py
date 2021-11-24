@@ -53,8 +53,10 @@ class MitmproxyFlower:
         #delete request header key
         for removedHeadersKey in removedHeadersKeys:
             del req.headers[removedHeadersKey]
-        
-        req.content = fixedMitmRequest.content
+            
+        if fixedMitmRequest.content != mitmRequest.content:
+            req.content = fixedMitmRequest.content
+            #修改请求体
     
     def response(self, flow: http.HTTPFlow) -> None:
         if not self.grpcClient:
