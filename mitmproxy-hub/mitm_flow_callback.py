@@ -54,7 +54,7 @@ class MitmproxyFlower:
         for removedHeadersKey in removedHeadersKeys:
             del req.headers[removedHeadersKey]
         
-        req.content = mitmRequest.content
+        req.content = fixedMitmRequest.content
     
     def response(self, flow: http.HTTPFlow) -> None:
         if not self.grpcClient:
